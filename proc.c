@@ -532,3 +532,60 @@ procdump(void)
     cprintf("\n");
   }
 }
+
+int pssyscall(void){
+	struct proc *p;
+
+  sti();
+  acquire(&ptable.lock);
+  
+  cprintf("name \t pid \t  state  \t parent \t sibiling\n");
+
+	for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+
+    int siblings[256];
+    struct proc *j;
+    int k=0;
+    for(j = ptable.proc; j < &ptable.proc[NPROC]; j++){
+      if((j->pid != p->pid) && (((j->parent)) == ((p->parent))) && (j->pid != 0)){
+        siblings[k] = j->pid;
+        k++;
+      }
+    }
+    
+    if(p->state == RUNNING){
+      cprintf("%s \t %d \t RUNNING \t %d \t",p->name, p->pid, *p->parent);
+
+      // sibilings
+      if(k == 0) cprintf("NS\n");
+      else{
+        for(int i=0; i<k; i++){ cprintf("%d, ", siblings[i]);}
+        cprintf("\n");
+      }
+    }
+
+    else if(p->state == RUNNABLE){
+      cprintf("%s \t %d \t RUNNABLE \t %d \t",p->name, p->pid, *p->parent);
+
+      // sibilings
+      if(k == 0) cprintf("NS\n");
+      else{
+        for(int i=0; i<k; i++){ cprintf("%d, ", siblings[i]);}
+        cprintf("\n");
+      }
+    }
+
+    else if(p->state == SLEEPING){
+      cprintf("%s \t %d \t SLEEPING \t %d \t",p->name, p->pid, *p->parent);
+
+      // sibilings
+      if(k == 0) cprintf("NS\n");
+      else{
+        for(int i=0; i<k; i++){ cprintf("%d, ", siblings[i]);}
+        cprintf("\n");
+      }
+    }
+	}
+  release(&ptable.lock);
+  return 22;
+}
