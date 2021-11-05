@@ -539,7 +539,7 @@ int pssyscall(void){
   sti();
   acquire(&ptable.lock);
   
-  cprintf("name \t pid \t  state  \t parent \t sibiling\n");
+  cprintf("name \t\t pid \t\t  state  \t\t parent \t\t sibiling\n");
 
 	for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
 
@@ -554,7 +554,7 @@ int pssyscall(void){
     }
     
     if(p->state == RUNNING){
-      cprintf("%s \t %d \t RUNNING \t %d \t",p->name, p->pid, *p->parent);
+      cprintf("%s \t\t %d \t\t RUNNING \t\t %d \t\t",p->name, p->pid, *p->parent);
 
       // sibilings
       if(k == 0) cprintf("NS\n");
@@ -565,7 +565,7 @@ int pssyscall(void){
     }
 
     else if(p->state == RUNNABLE){
-      cprintf("%s \t %d \t RUNNABLE \t %d \t",p->name, p->pid, *p->parent);
+      cprintf("%s \t\t %d \t\t RUNNABLE \t\t %d \t\t",p->name, p->pid, *p->parent);
 
       // sibilings
       if(k == 0) cprintf("NS\n");
@@ -576,7 +576,7 @@ int pssyscall(void){
     }
 
     else if(p->state == SLEEPING){
-      cprintf("%s \t %d \t SLEEPING \t %d \t",p->name, p->pid, *p->parent);
+      cprintf("%s \t\t %d \t\t SLEEPING \t\t %d \t\t",p->name, p->pid, *p->parent);
 
       // sibilings
       if(k == 0) cprintf("NS\n");

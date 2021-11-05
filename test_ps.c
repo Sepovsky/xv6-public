@@ -15,7 +15,7 @@ testps(void)
 {
   int n, pid;
 
-  printf(1, "fork test\n");
+  printf(1, "pssyscall test\n");
 
   for(n=0; n<N; n++){
     pid = fork();
